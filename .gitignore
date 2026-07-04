@@ -3,3 +3,8 @@ _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
+
+# Local Bundler install — gems live here after `bundle install`; not committed.
+/vendor/
+# Machine-specific Bundler config (local install path, native-build flags).
+/.bundle/

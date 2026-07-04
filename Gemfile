@@ -1,30 +1,31 @@
 source "https://rubygems.org"
 
-# Hello! This is where you manage which Jekyll version is used to run.
-# When you want to use a different version, change it below, save the
-# file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
+# Run Jekyll with `bundle exec`, e.g. `bundle exec jekyll serve`.
 #
-#     bundle exec jekyll serve
-#
-# This will help ensure the proper Jekyll version is running.
-# Happy Jekylling!
-gem "jekyll", "~> 3.8.3"
+# This site is built and published by GitHub Pages, which uses the
+# `github-pages` gem to pin Jekyll + plugins to the exact versions GitHub
+# runs server-side. That way, what you see locally matches what goes live.
+# To update to the versions GitHub currently uses, run: bundle update github-pages
+gem "github-pages", group: :jekyll_plugins
 
-# This is the default theme for new Jekyll sites. You may change this to anything you like.
-gem "minima", "~> 2.0"
-
-# If you want to use GitHub Pages, remove the "gem "jekyll"" above and
-# uncomment the line below. To upgrade, run `bundle update github-pages`.
-# gem "github-pages", group: :jekyll_plugins
-
-# If you have any plugins, put them here!
+# Plugins. jekyll-feed generates /feed.xml for RSS readers.
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.6"
+  gem "jekyll-feed", "~> 0.12"
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# Ruby 3.0+ no longer ships webrick in the standard library, and
+# `jekyll serve` needs it to run the local preview server.
+gem "webrick", "~> 1.8"
+
+# Windows and JRuby do not include zoneinfo files, so bundle the tzinfo-data gem.
+platforms :mingw, :x64_mingw, :mswin, :jruby do
+  gem "tzinfo", ">= 1", "< 3"
+  gem "tzinfo-data"
+end
 
 # Performance-booster for watching directories on Windows
-gem "wdm", "~> 0.1.0" if Gem.win_platform?
+gem "wdm", "~> 0.1.1", platforms: [:mingw, :x64_mingw, :mswin]
 
+# Lock `http_parser.rb` gem to `v0.6.x` on JRuby builds since newer versions
+# of the gem do not have a Java counterpart.
+gem "http_parser.rb", "~> 0.6.0", platforms: [:jruby]
